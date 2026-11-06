@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Расписание студии — DooMasters</title>
+<meta name="description" content="Свободное время в Big Stu и Small Stu на 14 дней вперёд и смены звукорежиссёров DooMasters. Выберите часы и запишитесь через бота.">
+<meta name="theme-color" content="#050507">
+<link rel="icon" href="p7.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;700&family=Onest:wght@400;500&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="site.css">
+<link rel="stylesheet" href="schedule.css">
+</head>
+<body>
+
+<nav class="nav" id="nav" aria-label="Разделы">
+  <div class="wrap">
+    <a class="logo" href="index.html" aria-label="DooMasters, на главную">
+      <img class="logo-mark" src="p7.jpg" alt="" width="40" height="40">
+      <span class="logo-word">DOOMASTERS<sup>®</sup></span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html#inside">Студия</a>
+      <a href="index.html#prices">Цены</a>
+      <a href="index.html#subs">Абонементы</a>
+      <a href="schedule.html" aria-current="page">Расписание</a>
+      <a href="index.html#reviews">Отзывы</a>
+      <a href="index.html#faq">FAQ</a>
+      <a href="index.html#contacts">Контакты</a>
+    </div>
+    <a class="btn btn-sm nav-cta" href="tel:+79808747366">+7 980 874-73-66</a>
+    <button class="nav-burger" type="button" aria-label="Меню" aria-expanded="false" aria-controls="navLinks"><span></span><span></span></button>
+  </div>
+</nav>
+
+<header class="sch-hero">
+  <div class="wrap">
+    <div class="hero-top">
+      <span class="eyebrow">Расписание · Big Stu и Small Stu</span>
+      <span class="mono" id="updated">загружаем…</span>
+    </div>
+    <h1 class="display" style="margin-top:20px">Свободное<br>время</h1>
+    <hr class="rule">
+    <div class="sch-intro">
+      <p class="lead">Нажмите на&nbsp;свободные часы, чтобы выбрать время, и&nbsp;запишитесь через Telegram-бота: бронь подтвердит администратор.</p>
+      <ul class="legend" aria-label="Обозначения">
+        <li><i class="lg-free"></i>Свободно</li>
+        <li><i class="lg-eng"></i>Сессия со звукорежиссёром</li>
+        <li><i class="lg-rent"></i>Аренда без звукаря</li>
+        <li><i class="lg-closed"></i>Закрыто</li>
+        <li><i class="lg-sel"></i>Ваш выбор</li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<div class="toolbar" id="toolbar">
+  <div class="wrap">
+    <div class="tb-row">
+      <div class="seg" role="radiogroup" aria-label="Комната" id="roomSeg">
+        <button type="button" role="radio" aria-checked="true" data-room="all">Обе</button>
+        <button type="button" role="radio" aria-checked="false" data-room="big">Big Stu</button>
+        <button type="button" role="radio" aria-checked="false" data-room="small">Small Stu</button>
+      </div>
+      <div class="pager">
+        <button type="button" class="pg-btn" id="prev" aria-label="Раньше">←</button>
+        <span class="pg-label" id="rangeLabel"></span>
+        <button type="button" class="pg-btn" id="next" aria-label="Позже">→</button>
+      </div>
+    </div>
+    <div class="days" id="days" role="tablist" aria-label="Дни"></div>
+  </div>
+</div>
+
+<main class="wrap">
+  <div class="engs" id="engs" aria-label="Звукорежиссёры"></div>
+  <p class="eng-note" id="engNote" hidden></p>
+  <div class="grid-wrap" id="gridWrap">
+    <div class="grid" id="grid" aria-busy="true"></div>
+  </div>
+  <p class="muted sch-foot">Время московское. Студия работает круглосуточно: ночные часы тоже можно выбрать. Ночная сессия через полночь — выберите часы в&nbsp;обоих днях или напишите в&nbsp;комментарии. Нужно больше двух недель вперёд — <a href="tel:+79808747366">позвоните</a>.</p>
+</main>
+
+<div class="bookbar" id="bookbar" hidden>
+  <div class="wrap">
+    <div class="bb-info">
+      <span class="mono" id="bbRoom"></span>
+      <b id="bbWhen"></b>
+      <span id="bbPrice" class="accent"></span>
+    </div>
+    <div class="bb-actions">
+      <button type="button" class="btn btn-sm" id="bbClear">Сбросить</button>
+      <button type="button" class="btn btn-accent" id="bbGo">Записаться в боте</button>
+    </div>
+  </div>
+</div>
+
+<dialog class="sheet" id="sheet" aria-labelledby="sheetTitle">
+  <div class="sheet-form">
+    <div class="sheet-head">
+      <h2 id="sheetTitle">Запись через бота</h2>
+      <button type="button" class="sheet-x" id="sheetClose" aria-label="Закрыть">×</button>
+    </div>
+    <div class="sheet-summary" id="sheetSummary"></div>
+
+    <label class="fld">
+      <span>Звукорежиссёр</span>
+      <select id="fEngineer"></select>
+    </label>
+
+    <ol class="steps">
+      <li><span>Откроется наш бот в Telegram — нажмите <b>Start</b>.</span></li>
+      <li><span>Бот примет заявку с выбранным временем, администратор подтвердит её.</span></li>
+    </ol>
+
+    <a class="btn btn-accent btn-block" id="botGo" href="#" target="_blank" rel="noopener">Продолжить в Telegram <span class="arr">→</span></a>
+    <button type="button" class="btn btn-block" id="copyMsg">Скопировать сообщение</button>
+    <p class="footnote" id="botHint">Если бот не подставил время сам, вставьте скопированное сообщение в чат с ним. Время закрепляется только после подтверждения.</p>
+  </div>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="config.js"></script>
+<script src="schedule-data.js"></script>
+<script src="site.js"></script>
+<script src="schedule.js"></script>
+</body>
+</html>
